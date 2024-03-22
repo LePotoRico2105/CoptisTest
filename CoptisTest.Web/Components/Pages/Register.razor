@@ -1,0 +1,76 @@
+﻿@page "/register"
+@rendermode InteractiveServer
+@inject ISessionRepository _session
+@inject IUserRepository _user
+@inject NavigationManager NavigationManager
+
+<PageTitle>Register</PageTitle>
+
+
+
+<EditForm Model="@registerModel" OnValidSubmit="OnRegisterClicked" class="text-center">
+    <DataAnnotationsValidator />
+    <h3>Create an access to your user area</h3>
+    <hr />
+    <label class="form-label">Username</label>
+    <InputText id="username" class="form-control" placeholder="Username" @bind-Value="@registerModel.username" />
+    <ValidationMessage For="@(() => registerModel.username)" />
+    <br />
+    <label class="form-label">Password</label>
+    <InputText id="password" class="form-control" type="password" placeholder="Password" @bind-Value="@registerModel.password" />
+    <ValidationMessage For="@(() => registerModel.password)" />
+    <br />
+    <label class="form-label">First name</label>
+    <InputText id="firstname" class="form-control" placeholder="First name" @bind-Value="@registerModel.firstname" />
+    <ValidationMessage For="@(() => registerModel.firstname)" />
+    <br />
+    <label class="form-label">Last name</label>
+    <InputText id="lastname" class="form-control" placeholder="Last name" @bind-Value="@registerModel.lastname" />
+    <ValidationMessage For="@(() => registerModel.lastname)" />
+    <br />
+    <label class="form-label">Email</label>
+    <InputText id="email" class="form-control" placeholder="Email" @bind-Value="@registerModel.email" />
+    <ValidationMessage For="@(() => registerModel.email)" />
+    <br />
+    <p class="text-danger">@error</p>
+    <input class="btn btn-primary m-1" type="submit" value="To register" />
+</EditForm>
+
+@code {
+
+    private class RegisterModel
+    {
+        [MinLength(2, ErrorMessage = "Username minimum length is 2")]
+        public string username { get; set; } = "";
+        [MinLength(2, ErrorMessage = "Password minimum length is 2")]
+        public string password { get; set; } = "";
+        [MinLength(2, ErrorMessage = "First Name minimum length is 2")]
+        public string firstname { get; set; } = "";
+        [MinLength(2, ErrorMessage = "Last Name minimum length is 2")]
+        public string lastname { get; set; } = "";
+        [MinLength(2, ErrorMessage = "Email minimum length is 2")]
+        [RegularExpression(@"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", ErrorMessage = "Non valid email")]
+        public string email { get; set; } = "";
+    }
+
+    RegisterModel registerModel = new RegisterModel();
+    private string error = "";
+
+    async void OnRegisterClicked()
+    {
+        var users = await _user.GetUsers();
+        if (users.Any(x => x.Username == registerModel.username)) error = "Username already exist";
+        else
+        {
+            User user = new User { UserId = 0, Username = registerModel.username, Password = registerModel.password, LastName = registerModel.lastname, FirstName = registerModel.firstname, Email = registerModel.email };
+            if ((await _user.AddUser(user)).IsSuccessStatusCode)
+            {
+                var usersUpdate = await _user.GetUsers();
+                _session.ToLogin(usersUpdate.First(x => x.Username==registerModel.username));
+                error = "";
+                NavigationManager.NavigateTo("", true);
+            }
+        }
+    }
+}
+

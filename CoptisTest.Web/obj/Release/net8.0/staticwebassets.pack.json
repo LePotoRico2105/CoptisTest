@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Matthieu\\source\\repos\\CoptisTest\\CoptisTest.Web\\obj\\Release\\net8.0\\scopedcss\\projectbundle\\CoptisTest.Web.bundle.scp.css",
+      "PackagePath": "staticwebassets\\CoptisTest.Web.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Matthieu\\source\\repos\\CoptisTest\\CoptisTest.Web\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\Matthieu\\source\\repos\\CoptisTest\\CoptisTest.Web\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Matthieu\\source\\repos\\CoptisTest\\CoptisTest.Web\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Matthieu\\source\\repos\\CoptisTest\\CoptisTest.Web\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.CoptisTest.Web.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.build.CoptisTest.Web.props",
+      "PackagePath": "build\\CoptisTest.Web.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.CoptisTest.Web.props",
+      "PackagePath": "buildMultiTargeting\\CoptisTest.Web.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildTransitive.CoptisTest.Web.props",
+      "PackagePath": "buildTransitive\\CoptisTest.Web.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

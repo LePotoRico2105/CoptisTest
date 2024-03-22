@@ -1,0 +1,41 @@
+﻿@page "/shop"
+@rendermode InteractiveServer
+@inject ISessionRepository _session
+@inject IProductRepository _product
+@inject NavigationManager NavigationManager
+
+<PageTitle>Shop</PageTitle>
+<div class="text-center">
+    <h3>Shop</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+            
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Price €</td>
+                    <td><a class="btn btn-primary" href="shop/@product.ProductId"><Icon Name="IconName.CartPlusFill" /></a></td>
+                </tr>
+            
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    List<Product> products { get; set; } = new List<Product>();
+    protected override async Task OnInitializedAsync()
+    {
+        if (!_session.GetSessionUser().Accesses.Any(x => x.Name == "shop")) NavigationManager.NavigateTo("", true);
+        products = (await _product.GetProducts()).ToList();
+    }
+}
+

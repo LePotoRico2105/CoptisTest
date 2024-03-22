@@ -1,0 +1,23 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<EditForm Model="@model">
+    <TextBox bind-Value="@model.Property"></TextBox> 
+</EditForm>
+
+@code {
+    Model model = new Model();
+
+    public class Model
+    {
+        public string? Property { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        model.Property = "test";
+    }
+}

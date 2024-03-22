@@ -1,0 +1,18 @@
+﻿@page "/users/{Id}"
+@rendermode InteractiveServer
+@inject ISessionRepository _session
+@inject NavigationManager NavigationManager
+
+<PageTitle>User @Id</PageTitle>
+
+<h3>User @Id</h3>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    protected override void OnInitialized()
+    {
+        if (!_session.GetSessionUser().Accesses.Any(x => x.Name == "users")) NavigationManager.NavigateTo("", true);
+    }
+}
+

@@ -1,0 +1,92 @@
+﻿@rendermode InteractiveServer
+@inject ISessionRepository _session
+@inject NavigationManager NavigationManager
+
+<nav class="navbar navbar-expand-md navbar-dark mb-2 sticky-top bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">COPTIS TEST</a>
+        <button class="navbar-toggler @NavButtonCssClass" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-label="Toggle navigation" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse @NavBarCssClass" id="navbarCollapse" @onclick="ToggleNavMenu">
+            <ul class="navbar-nav justify-content-center me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <NavLink class="nav-link text-center" href="" Match="NavLinkMatch.All">
+                        <Icon Name="IconName.House" /> Home
+                    </NavLink>
+                </li>
+                @if (_session.GetSessionUser().Accesses.Any(x => x.Name=="users" ))
+                {
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-center" href="users" Match="NavLinkMatch.All">
+                            <Icon Name="IconName.PeopleFill" /> Users
+                        </NavLink>
+                    </li>
+                }
+                @if (_session.GetSessionUser().Accesses.Any(x => x.Name == "shop"))
+                {
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-center" href="shop" Match="NavLinkMatch.All">
+                            <Icon Name="IconName.Shop" /> Shop
+                        </NavLink>
+                    </li>
+                }
+                @if (_session.GetSessionUser().Accesses.Any(x => x.Name == "orders"))
+                {
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-center" href="orders" Match="NavLinkMatch.All">
+                            <Icon Name="IconName.Box2Fill" /> Orders
+                        </NavLink>
+                    </li>
+                }
+            </ul>
+            @if (_session.GetSessionUser().UserId == 0)
+            {
+                <div class="text-center m-1">
+                    <button class="btn btn-outline-light">
+                        <NavLink class="nav-link" href="login">
+                            <Icon Name="IconName.PersonCheckFill" /> To login
+                        </NavLink>
+                    </button>
+                </div>
+                <div class="text-center m-1">
+                    <button class="btn btn-outline-light">
+                        <NavLink class="nav-link" href="register">
+                            <Icon Name="IconName.PersonPlusFill" /> To register
+                        </NavLink>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <span class="navbar-text m-1">
+                    Welcome <span class="text-primary">@_session.GetSessionUser().Username</span>
+                </span>
+                <div class="text-center m-1">
+                    <button class="btn btn-outline-light">
+                        <NavLink class="nav-link" @onclick="ToLogoutClicked">
+                            <Icon Name="IconName.PersonDashFill" /> To logout
+                        </NavLink>
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</nav>
+
+@code {
+    private bool collapseNavMenu = true;
+    private string? NavBarCssClass => collapseNavMenu ? null : "show";
+    private string? NavButtonCssClass => collapseNavMenu ? "collapsed" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+    private void ToLogoutClicked()
+    {
+        _session.ToLogout();
+        NavigationManager.NavigateTo("", true);
+    }
+}

@@ -1,0 +1,41 @@
+﻿@page "/shop/{ProductId}"
+@rendermode InteractiveServer
+@inject ISessionRepository _session
+@inject IProductRepository _product
+@inject IOrderRepository _order
+@inject NavigationManager NavigationManager
+
+<PageTitle>Shop - @product.Name</PageTitle>
+<div class="text-center"> 
+    <a class="btn btn-primary" href="shop"><Icon Name="IconName.Back" /> Return</a>
+    <Card Color="CardColor.Dark" Class="mb-4" Style="width:18rem;">
+        <CardHeader>@product.Name</CardHeader>
+        <CardBody>
+            <CardTitle>@product.Price €</CardTitle>
+            <CardText>Quantity available : @product.Quantity</CardText>
+            <InputNumber Value="@quantity" />
+            <Button Color="ButtonColor.Primary" onclick="() => OnOrderClicked()" Type="ButtonType.Link"><Icon Name="IconName.CartPlusFill" /> To Order</Button>
+        </CardBody>
+    </Card>
+</div>
+
+@code {
+    [Parameter]
+    public string ProductId { get; set; }
+
+    Product product { get; set; } = new Product();
+    int quantity { get; set; } = 1;
+    protected override async Task OnInitializedAsync()
+    {
+        if (!_session.GetSessionUser().Accesses.Any(x => x.Name == "shop")) NavigationManager.NavigateTo("", true);
+        var prod = await _product.GetProduct(Convert.ToInt32(ProductId));
+        if (prod == null) NavigationManager.NavigateTo("", true);
+        else product = prod;
+    }
+    async void OnOrderClicked()
+    {
+        Order order = new Order { OrderId = 0, Date = DateTime.Now, Price = product.Price * quantity, ProductId = product.ProductId, UserId = _session.GetSessionUser().UserId };
+        await _order.AddOrder(order);
+    }
+}
+

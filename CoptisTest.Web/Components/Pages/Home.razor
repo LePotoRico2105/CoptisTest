@@ -1,0 +1,27 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject ISessionRepository _session
+
+<PageTitle>Home</PageTitle>
+
+@if (_session.GetSessionUser().UserId == 0)
+{
+    <div class="text-center">
+        <h1>Welcome to our COPTIS Shop Platerform</h1>
+        <br />
+        <br />
+        <h3>Login to acceed to our product catalog</h3>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1>Hello <span class="text-primary">@_session.GetSessionUser().Username</span> !</h1>
+        <br />
+        <br />
+        <h3>Ready to order new products ?</h3>
+        <br />
+        <a class="btn btn-primary" href="shop">Go to shop</a>
+    </div>
+}
+

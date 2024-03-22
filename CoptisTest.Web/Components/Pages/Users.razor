@@ -1,0 +1,16 @@
+﻿@page "/users"
+@rendermode InteractiveServer
+@inject ISessionRepository _session
+@inject NavigationManager NavigationManager
+
+<PageTitle>Users</PageTitle>
+
+<h3>Users</h3>
+
+@code {
+    protected override void OnInitialized()
+    {
+        if (!_session.GetSessionUser().Accesses.Any(x => x.Name == "products")) NavigationManager.NavigateTo("", true);
+    }
+}
+

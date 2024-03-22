@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "CoptisTest.Web/1.0.0": {
+        "dependencies": {
+          "CoptisTest.Models": "1.0.0"
+        },
+        "runtime": {
+          "CoptisTest.Web.dll": {}
+        }
+      },
+      "CoptisTest.Models/1.0.0": {
+        "runtime": {
+          "CoptisTest.Models.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CoptisTest.Web/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CoptisTest.Models/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

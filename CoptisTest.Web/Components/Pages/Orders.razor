@@ -1,0 +1,39 @@
+﻿@page "/orders"
+@rendermode InteractiveServer
+@inject ISessionRepository _session
+@inject IOrderRepository _order
+@inject NavigationManager NavigationManager
+
+<PageTitle>Orders</PageTitle>
+<div class="text-center">
+    <h3>Shop</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders)
+            {
+
+                <tr>
+                    <td>@order.User.FirstName</td>
+                    <td>@order.User.LastName</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    List<Order> orders { get; set; } = new List<Order>();
+    protected override async Task OnInitializedAsync()
+    {
+        if (!_session.GetSessionUser().Accesses.Any(x => x.Name == "orders")) NavigationManager.NavigateTo("", true);
+        orders = (await _order.GetOrders()).ToList();
+    }
+}
+
